@@ -1,9 +1,41 @@
 import React from "react";
-
+import { useRef, useState, useEffect } from "react";
 const Manager = () => {
+
+  const [form, setform] = useState({site:"", username:"", password:""})
+  const [passwordArray, setpasswordArray] = useState([])
+
+  useEffect(() => {
+    let passwords = localStorage.getItem("passwords");
+    if(passwords){
+      setpasswordArray(JSON.parse(passwords))
+    }  
+  }, [])
+  
+
+  const ref = useRef()
+  const showPassword = ()=>{
+    alert("show password")
+    if(ref.current.src.includes("icons/eyecross.png")){
+      ref.current.src = "icons/eye.png"
+    }
+    else{
+      ref.current.src = "icons/eyecross.png"
+
+    }
+  }
+  const savePassword = () =>{
+    setpasswordArray([...passwordArray, form ])
+    localStorage.setItem("passwords", JSON.stringify([...passwordArray, form ]))
+    console.log([...passwordArray, form ])
+  }
+
+  const handleChange = (e) =>[
+    setform({...form, [e.target.name] : e.target.value})
+  ]
   return (
     <>
-      <div class="absolute inset-0 -z-10 h-full w-full items-center px-5 py-24 [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]">
+      <div className="absolute inset-0 -z-10 h-full w-full items-center px-5 py-24 [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]">
         <div className="mycontainer   max-w-4xl">
           <h1 className="text-4xl text font-bold text-center">
             <span className="text-green-500"> &lt;</span>
@@ -15,30 +47,33 @@ const Manager = () => {
           </p>
           <div className="flex flex-col py-4 text-white">
             <input
-              className="rounded-full border border-green-800 w-full p-4 py-1"
-              type="text"
-              placeholder="Enter Website URl"
+            value={form.site} onChange={handleChange}
+              className="rounded-full border border-green-800 text-black  w-full p-4 py-1"
+              type="text" name="site"
+              placeholder="Enter Website URL"
             />
           </div>
           <div className="flex gap-2 w-full">
             <input
-              className="rounded-full border border-green-800 w-full p-4 py-1"
-              type="text"
+            value={form.username} onChange={handleChange}
+              className="rounded-full border border-green-800  text-black w-full p-4 py-1"
+              type="text" name="username"
               placeholder="Enter username"
             />
             <div className="relative">
             <input
-              className="rounded-full border border-green-800 w-full p-4 py-1"
-              type="text"
+            value={form.password} onChange={handleChange}
+              className="rounded-full border border-green-800 text-black  w-full p-4 py-1"
+              type="text" name="password"
               placeholder="Enter password"
             />
-            <span className="absolute right-1 top-1.5"> 
-              <img width={20} src="icons/eye.png" alt="eye" />
+            <span className="absolute right-1 top-1.5 cursor-pointer " onClick={showPassword}> 
+              <img ref={ref} width={20} src="icons/eye.png" alt="eye" />
             </span>
             </div>
             
           </div>
-          <button className=" flex mx-auto my-2 gap-1 justify-center items-center bg-green-400 text-black font-bold hover:font-extrabold hover:bg-green-500 px-3 p-1 rounded-full">
+          <button onClick={savePassword} className=" flex mx-auto my-2 gap-1 justify-center items-center bg-green-400 text-black font-bold hover:font-extrabold hover:bg-green-500 px-3 p-1 rounded-full">
             <lord-icon
               src="https://cdn.lordicon.com/sbnjyzil.json"
               trigger="hover"
@@ -46,6 +81,10 @@ const Manager = () => {
             ></lord-icon>
             Add Password
           </button>
+        </div>
+        <div className="passwords">
+          <h2 className="text-white text-xl">Your Passwords</h2>
+          
         </div>
       </div>
     </>
