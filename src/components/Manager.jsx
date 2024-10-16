@@ -31,8 +31,7 @@ const Manager = () => {
   ];
   return (
     <>
-      <div className="absolute inset-0 -z-10 h-fit w-full items-center px-5 py-24 [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]">     
-
+      <div className="absolute inset-0 -z-10 h-full w-full items-center px-5 py-24 [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]">
         <div className="mycontainer   max-w-4xl">
           <h1 className="text-4xl text font-bold text-center">
             <span className="text-green-500"> &lt;</span>
@@ -90,38 +89,41 @@ const Manager = () => {
             Add Password
           </button>
           <div className="passwords m-5">
-          <h2 className="text-white text-xl mx-auto font-bold text-center py-2">Your Passwords</h2>
-          {passwordArray.length===0 && <div className="text-white"> No Passwords to show </div>}
-          {passwordArray.length!=0 &&
-          <table class="table-auto bg-white w-full rounded-md overflow-hidden">
-            <thead className="bg-green-700 text-white py-2">
-              <tr>
-                <th>Song</th>
-                <th>Artist</th>
-                <th>Year</th>
-              </tr>
-            </thead>
-            <tbody className="bg-green-100">
-              <tr>
-                <td className="px-2 border border-green-300 text-center w-20">The Sliding Mr. Bones (Next Stop, Pottersville)</td>
-                <td className="px-2 border border-green-300 text-center w-20">Malcolm Lockyer</td>
-                <td className="px-2 border border-green-300 text-center w-20">1961</td>
-              </tr>
-              <tr>
-                <td className="px-2 border border-green-300 text-center w-20">Witchy Woman</td>
-                <td className="px-2 border border-green-300 text-center w-20">The Eagles</td>
-                <td className="px-2 border border-green-300 text-center w-20">1972</td>
-              </tr>
-              <tr>
-                <td className="px-2 border border-green-300 text-center w-20">Shining Star</td>
-                <td className="px-2 border border-green-300 text-center w-20">Earth, Wind, and Fire</td>
-                <td className="px-2 border border-green-300 text-center w-20">1975</td>
-              </tr>
-            </tbody>
-          </table>}
+            <h2 className="text-white text-xl mx-auto font-bold text-center py-2">
+              Your Passwords
+            </h2>
+            {passwordArray.length === 0 && (
+              <div className="text-white"> No Passwords to show </div>
+            )}
+            {passwordArray.length != 0 && (
+              <table className="table-auto w-full rounded-md overflow-hidden">
+                <thead className="bg-green-700 text-white py-2 border border-green-700">
+                  <tr>
+                    <th>Site</th>
+                    <th>Username</th>
+                    <th>Password</th>
+                  </tr>
+                </thead>
+                <tbody className="bg-green-100">
+                  {passwordArray.map((item,index) => {
+                    return <tr key={index}>
+                      <td className="px-2 border border-green-300 text-center w-20">
+                        <a href={item.site} target="_blank">{item.site}</a>
+                      </td>
+                      <td className="px-2 border border-green-300 text-center w-20">
+                        {item.username}{" "}
+                      </td>
+                      <td className="px-2 border border-green-300 text-center w-20">
+                        {item.password}
+                      </td>
+                    </tr>;
+                  })}
+                </tbody>
+              </table>
+            )}
+          </div>
         </div>
-        </div>
-        </div>
+      </div>
     </>
   );
 };
