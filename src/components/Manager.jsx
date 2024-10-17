@@ -1,5 +1,9 @@
 import React from "react";
 import { useRef, useState, useEffect } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { v4 as uuidv4 } from "uuid";
+
 const Manager = () => {
   const [form, setform] = useState({ site: "", username: "", password: "" });
   const [passwordArray, setpasswordArray] = useState([]);
@@ -23,21 +27,61 @@ const Manager = () => {
     }
   };
   const savePassword = () => {
-    setpasswordArray([...passwordArray, form]);
-    localStorage.setItem("passwords", JSON.stringify([...passwordArray, form]));
-    console.log([...passwordArray, form]);
+    setpasswordArray([...passwordArray, { ...form, id: uuidv4() }]);
+    localStorage.setItem(
+      "passwords",
+      JSON.stringify([...passwordArray, { ...form, id: uuidv4() }])
+    );
+    setform({ site: "", username: "", password: "" })
+  };
+
+  const deletePassword = (id) => {
+    let c = confirm("Do you want to delete this password?");
+    if (c) {
+      setpasswordArray(passwordArray.filter((item) => item.id != id));
+      localStorage.setItem(
+        "passwords",
+        JSON.stringify(passwordArray.filter((item) => item.id != id))
+      );
+    }
+  };
+
+  const editPassword = (id) => {
+    setform(passwordArray.filter((i) => i.id === id)[0]);
+    setpasswordArray(passwordArray.filter((item) => item.id != id));
   };
 
   const handleChange = (e) => [
     setform({ ...form, [e.target.name]: e.target.value }),
   ];
 
-  const copyText = ()=>{
-    alert("copied to clipboard")
+  const copyText = (text) => {
+    toast("Copied to Clipboard!", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
     navigator.clipboard.writeText(text);
-  }
+  };
   return (
     <>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       <div className="absolute inset-0 -z-10 h-full w-full items-center px-5 py-24 [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]"></div>
       <div className="mycontainer   max-w-4xl">
         <h1 className="text-4xl text font-bold text-center">
@@ -90,11 +134,10 @@ const Manager = () => {
           className=" flex mx-auto my-2 gap-1 justify-center items-center bg-green-400 text-black font-bold hover:font-extrabold hover:bg-green-500 px-3 p-1 rounded-full"
         >
           <lord-icon
-            src="https://cdn.lordicon.com/sbnjyzil.json"
+            src="https://cdn.lordicon.com/jgnvfzqg.json"
             trigger="hover"
-            colors="primary:#121331,secondary:#000000"
           ></lord-icon>
-          Add Password
+          Save
         </button>
         <div className="passwords m-5">
           <h2 className="text-white text-xl mx-auto font-bold text-center py-2">
