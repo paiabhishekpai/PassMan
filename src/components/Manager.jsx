@@ -11,13 +11,17 @@ const Manager = () => {
     }
   }, []);
 
+  const passwordRef = useRef();
   const ref = useRef();
   const showPassword = () => {
-    alert("show password");
     if (ref.current.src.includes("icons/eyecross.png")) {
       ref.current.src = "icons/eye.png";
+      passwordRef.current.type="password";
+
     } else {
       ref.current.src = "icons/eyecross.png";
+      passwordRef.current.type="text";
+
     }
   };
   const savePassword = () => {
@@ -62,10 +66,11 @@ const Manager = () => {
             />
             <div className="relative">
               <input
+              ref={passwordRef}
                 value={form.password}
                 onChange={handleChange}
                 className="rounded-full border border-green-800 text-black  w-full p-4 py-1"
-                type="text"
+                type="password"
                 name="password"
                 placeholder="Enter password"
               />
