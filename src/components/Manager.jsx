@@ -242,7 +242,7 @@ const Manager = () => {
                       </td>
                       <td className="px-2 border border-green-300 text-center w-20">
                         <div className="flex items-center justify-center ">
-                          <span>{item.password}</span>
+                          <span>{"*".repeat(item.password.length)}</span>
                           <div
                             className="lordiconcopy size-7 cursor-pointer"
                             onClick={() => {
