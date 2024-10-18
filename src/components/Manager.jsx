@@ -27,12 +27,33 @@ const Manager = () => {
     }
   };
   const savePassword = () => {
+    if (form.site.length > 3 && form.username.length > 3 && form.password.length > 3) {
     setpasswordArray([...passwordArray, { ...form, id: uuidv4() }]);
-    localStorage.setItem(
-      "passwords",
-      JSON.stringify([...passwordArray, { ...form, id: uuidv4() }])
-    );
+    localStorage.setItem("passwords",JSON.stringify([...passwordArray, { ...form, id: uuidv4() }]));
     setform({ site: "", username: "", password: "" })
+    toast("Saved!", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+  }
+  else{
+    toast("Error: Password not saved", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    })
+  }
   };
 
   const deletePassword = (id) => {
@@ -43,6 +64,16 @@ const Manager = () => {
         "passwords",
         JSON.stringify(passwordArray.filter((item) => item.id != id))
       );
+      toast("Deleted", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     }
   };
 
@@ -59,7 +90,7 @@ const Manager = () => {
     toast("Copied to Clipboard!", {
       position: "top-center",
       autoClose: 5000,
-      hideProgressBar: false,
+      hideProgressBar: true,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
@@ -82,8 +113,8 @@ const Manager = () => {
         pauseOnHover
         theme="dark"
       />
-      <div className="absolute inset-0 -z-10 h-full w-full items-center px-5 py-24 [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]"></div>
-      <div className="mycontainer   max-w-4xl">
+      <div className="absolute inset-0 -z-10 h-full w-full items-center [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]"></div>
+      <div className="md:mycontainer w-full min-h-[81.5vh]   max-w-4xl">
         <h1 className="text-4xl text font-bold text-center">
           <span className="text-green-500"> &lt;</span>
           <span className="text-white">Pass</span>
@@ -99,6 +130,7 @@ const Manager = () => {
             className="rounded-full border border-green-800 text-black  w-full p-4 py-1"
             type="text"
             name="site"
+            id="site"
             placeholder="Enter Website URL"
           />
         </div>
@@ -109,6 +141,7 @@ const Manager = () => {
             className="rounded-full border border-green-800  text-black w-full p-4 py-1"
             type="text"
             name="username"
+            id="username"
             placeholder="Enter username"
           />
           <div className="relative">
@@ -119,6 +152,7 @@ const Manager = () => {
               className="rounded-full border border-green-800 text-black  w-full p-4 py-1"
               type="password"
               name="password"
+              id="password"
               placeholder="Enter password"
             />
             <span
